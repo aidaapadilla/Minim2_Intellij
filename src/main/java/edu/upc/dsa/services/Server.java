@@ -22,17 +22,17 @@ public class Server {
     public Server(){this.manager =ManagerImpl.getInstance();}
 
     @GET
-    @ApiOperation(value = "lista de insignias", notes = "asdasd")
+    @ApiOperation(value = "lista repositorios usuario", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful", response = Insignias.class, responseContainer = "Lista"),
+            @ApiResponse(code = 200, message = "Successful", response = Repositorios.class, responseContainer = "Lista"),
             @ApiResponse(code = 500, message = "Error")
     })
-    @Path("/insignias")
+    @Path("/repositorios/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getInsignias(){
-        LinkedList<Insignias> insignias = this.manager.getInsignias();
-        if(insignias.size()!=0) {
-            GenericEntity<LinkedList<Insignias>> entity = new GenericEntity<LinkedList<Insignias>>(insignias) {
+    public Response getInsignias(@PathParam("userId") String user){
+        List<Repositorios> repos = this.manager.getRepositorios(user);
+        if(repos.size()!=0) {
+            GenericEntity<List<Repositorios>> entity = new GenericEntity<List<Repositorios>>(repos) {
             };
             return Response.status(200).entity(entity).build();
         }
